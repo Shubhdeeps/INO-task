@@ -13,7 +13,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 export default function ForumCard() {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ width: 800, borderRadius: 8, p: 2 }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -29,6 +29,9 @@ export default function ForumCard() {
         subheader="September 14, 2016"
       />
       <CardMedia
+        sx={{
+          borderRadius: 8,
+        }}
         component="img"
         height="194"
         image="/static/images/cards/paella.jpg"

@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import Layout from "./components/Layout";
 import ForumCard from "./components/ForumCard/Card";
+import CreatePost from "./components/CreatePost/CreatePost";
 
 function App() {
   return (
@@ -8,11 +9,14 @@ function App() {
       <Layout>
         <Box
           sx={{
+            border: "1px solid red",
             display: "flex",
-            flexWrap: "wrap",
+            flexDirection: "column",
+            alignItems: "center",
             gap: 3,
           }}
         >
+          <CreatePost />
           <ForumCard />
           <ForumCard />
           <ForumCard />
