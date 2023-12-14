@@ -10,14 +10,17 @@ import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { IPost } from "../../models/Post.model";
+import { secondsToString } from "../../service/functions/secondsToString";
 
-export default function ForumCard() {
+export default function ForumCard({ post }: { post: IPost }) {
+  const { authorUserName, imageURL, text, postedAt } = post;
   return (
     <Card sx={{ width: 800, borderRadius: 8, p: 2 }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
+            {authorUserName && authorUserName.split("")[0].toUpperCase()}
           </Avatar>
         }
         action={
@@ -25,23 +28,23 @@ export default function ForumCard() {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        title={authorUserName}
+        subheader={secondsToString(postedAt)}
       />
-      <CardMedia
-        sx={{
-          borderRadius: 8,
-        }}
-        component="img"
-        height="194"
-        image="/static/images/cards/paella.jpg"
-        alt="Paella dish"
-      />
+      {imageURL && (
+        <CardMedia
+          sx={{
+            borderRadius: 8,
+          }}
+          component="img"
+          height="194"
+          image={imageURL}
+          alt="Paella dish"
+        />
+      )}
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
+          {text}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>

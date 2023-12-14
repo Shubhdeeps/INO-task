@@ -4,19 +4,36 @@ import IconButton from "@mui/material/IconButton";
 import { red } from "@mui/material/colors";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { Box, Button } from "@mui/material";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import {
+  uploadANewPost,
+  uploadImagesAndGetURL,
+} from "../../service/functions/uploadANewPost";
 
 export default function CreatePost() {
   const [inputText, setInputText] = useState("");
-  const [inputImage, setInputImage] = useState();
+  const [inputImage, setInputImage] = useState<File | null>(null);
+  const imageRef = useRef<HTMLInputElement | null>(null);
 
-  function selectImage() {}
-  function uploadPost() {
+  async function handleUploadPost() {
     if (!inputText && !inputImage) {
       //avoid upload if both the fields are empty
       return;
     }
+
+    const imageUrl = await uploadImagesAndGetURL(inputImage);
+
+    await uploadANewPost(imageUrl, inputText);
+    setInputImage(null);
+    setInputText("");
   }
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setInputImage(e.target.files[0]);
+    }
+  };
+
   return (
     <Card
       sx={{
@@ -52,9 +69,30 @@ export default function CreatePost() {
           onChange={(e) => setInputText(e.target.value)}
           className="custom-input-field"
         />
-        <IconButton aria-label="settings">
-          <AddPhotoAlternateIcon />
+        <IconButton
+          onClick={() => imageRef.current?.click()}
+          aria-label="settings"
+        >
+          {inputImage ? (
+            <img
+              width="30px"
+              height="auto"
+              src={URL.createObjectURL(inputImage)}
+              alt="art"
+            />
+          ) : (
+            <AddPhotoAlternateIcon />
+          )}
         </IconButton>
+        <input
+          ref={imageRef}
+          type="file"
+          id="file-upload"
+          name="file-upload"
+          className="new-file"
+          accept="image/png, image/jpeg, image/jpg"
+          onChange={(e) => handleImageUpload(e)}
+        />
       </Box>
       <Button
         sx={{
@@ -63,6 +101,7 @@ export default function CreatePost() {
           borderRadius: 8,
         }}
         variant="contained"
+        onClick={handleUploadPost}
       >
         Post
       </Button>
