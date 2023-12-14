@@ -8,5 +8,6 @@ Create a simple forum application (first start by being able to post anything an
 
 ```
 Front-end: ReactJs + typescript
+CSS: Material-ui
 Back-end: Firebase database and Authentication
 ```
