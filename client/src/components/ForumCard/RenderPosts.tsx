@@ -7,13 +7,13 @@ import ForumCard from "./Card";
 
 export default function RenderPosts() {
   const [posts, setPosts] = useState<IPost[]>([]);
-
+  const [fetch, setFetch] = useState(0);
   useEffect(() => {
     (async () => {
       const _posts = await getAllPosts();
       setPosts(_posts);
     })();
-  }, []);
+  }, [fetch]);
   console.log(posts);
 
   return (
@@ -26,7 +26,7 @@ export default function RenderPosts() {
           gap: 3,
         }}
       >
-        <CreatePost />
+        <CreatePost setFetch={setFetch} />
         {posts.map((post) => {
           return (
             <React.Fragment key={post.uid}>

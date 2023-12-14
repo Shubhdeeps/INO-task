@@ -11,7 +11,11 @@ import {
 } from "../../service/functions/uploadANewPost";
 import { auth } from "../../service/firebaseConfig";
 
-export default function CreatePost() {
+export default function CreatePost({
+  setFetch,
+}: {
+  setFetch: React.Dispatch<React.SetStateAction<number>>;
+}) {
   const [inputText, setInputText] = useState("");
   const [inputImage, setInputImage] = useState<File | null>(null);
   const imageRef = useRef<HTMLInputElement | null>(null);
@@ -34,6 +38,7 @@ export default function CreatePost() {
     const imageUrl = await uploadImagesAndGetURL(inputImage);
 
     await uploadANewPost(imageUrl, inputText);
+    setFetch((prev) => prev + 1);
     setInputImage(null);
     setInputText("");
   }
