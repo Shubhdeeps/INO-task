@@ -30,7 +30,7 @@ export default function RenderPosts() {
         {posts.map((post) => {
           return (
             <React.Fragment key={post.uid}>
-              <ForumCard post={post} />
+              <ForumCard post={post} setFetch={setFetch} />
             </React.Fragment>
           );
         })}
