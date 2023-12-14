@@ -85,6 +85,7 @@ export default function ForumCard({
         {/* <IconButton aria-label="share">
           <ShareIcon />
         </IconButton> */}
+        <Typography>{likedBy.length}</Typography>
       </CardActions>
     </Card>
   );
