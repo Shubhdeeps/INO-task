@@ -16,7 +16,7 @@ export async function uploadANewPost(imageURL: string | null, text?: string) {
       postedAt: serverTimestamp.now().seconds,
       uid: newId,
     };
-    await firestore.collection("posts").doc().set(newPost);
+    await firestore.collection("posts").doc(newId).set(newPost);
     return newPost;
   } catch (e) {
     console.log(e);

@@ -8,13 +8,24 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { IPost } from "../../models/Post.model";
 import { secondsToString } from "../../service/functions/secondsToString";
+import { likedThePost } from "../../service/functions/ReactOnAPost";
+import { auth } from "../../service/firebaseConfig";
+import { useState } from "react";
 
 export default function ForumCard({ post }: { post: IPost }) {
-  const { authorUserName, imageURL, text, postedAt } = post;
+  const { authorUserName, imageURL, text, postedAt, uid, likedBy } = post;
+  const authId = auth.currentUser?.uid || "";
+
+  const [likedByCurrUser, setLikeByCurrUser] = useState(() =>
+    likedBy.includes(authId)
+  );
+  function handleLikePost() {
+    likedThePost(uid, authId, likedByCurrUser ? "unlike" : "like");
+    setLikeByCurrUser((prev) => !prev);
+  }
   return (
     <Card sx={{ width: 800, borderRadius: 8, p: 2 }}>
       <CardHeader
@@ -48,12 +59,16 @@ export default function ForumCard({ post }: { post: IPost }) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton
+          onClick={handleLikePost}
+          color={likedByCurrUser ? "error" : "default"}
+          aria-label="add to favorites"
+        >
           <FavoriteIcon />
         </IconButton>
-        <IconButton aria-label="share">
+        {/* <IconButton aria-label="share">
           <ShareIcon />
-        </IconButton>
+        </IconButton> */}
       </CardActions>
     </Card>
   );
