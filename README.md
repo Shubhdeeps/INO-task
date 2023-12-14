@@ -11,3 +11,11 @@ Front-end: ReactJs + typescript
 CSS: Material-ui
 Back-end: Firebase database and Authentication
 ```
+
+### Install dependencies
+
+`npm install`
+
+### Run dev server
+
+`npm run dev`
