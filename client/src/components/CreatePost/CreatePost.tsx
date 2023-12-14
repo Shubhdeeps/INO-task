@@ -4,16 +4,26 @@ import IconButton from "@mui/material/IconButton";
 import { red } from "@mui/material/colors";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { Box, Button } from "@mui/material";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   uploadANewPost,
   uploadImagesAndGetURL,
 } from "../../service/functions/uploadANewPost";
+import { auth } from "../../service/firebaseConfig";
 
 export default function CreatePost() {
   const [inputText, setInputText] = useState("");
   const [inputImage, setInputImage] = useState<File | null>(null);
   const imageRef = useRef<HTMLInputElement | null>(null);
+  const [username, setUsername] = useState("");
+  const user = auth.currentUser?.displayName || "";
+
+  useEffect(() => {
+    console.log("user found, ", user);
+    if (user) {
+      setUsername(user.split("")[0]);
+    }
+  }, [user]);
 
   async function handleUploadPost() {
     if (!inputText && !inputImage) {
@@ -48,9 +58,9 @@ export default function CreatePost() {
     >
       <Avatar
         sx={{ bgcolor: red[500], height: "70px", width: "70px" }}
-        aria-label="recipe"
+        aria-label={username}
       >
-        R
+        {username}
       </Avatar>
       <Box
         sx={{

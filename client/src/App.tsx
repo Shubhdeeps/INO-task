@@ -10,7 +10,9 @@ function App() {
       //log in anonymously
       await auth.signInAnonymously();
       //assing random username
-      createNewUser();
+      if (!auth.currentUser?.displayName) {
+        createNewUser();
+      }
     })();
   }, []);
   return (
