@@ -20,7 +20,6 @@ export default function RenderPosts() {
     <>
       <Box
         sx={{
-          border: "1px solid red",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

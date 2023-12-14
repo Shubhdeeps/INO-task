@@ -1,5 +1,5 @@
 import { IPost } from "../../models/Post.model";
-import { firestore, serverTimestamp } from "../firebaseConfig";
+import { auth, firestore, serverTimestamp } from "../firebaseConfig";
 import { v4 as uuidv4 } from "uuid";
 import { storage } from "../firebaseConfig";
 
@@ -9,8 +9,8 @@ export async function uploadANewPost(imageURL: string | null, text?: string) {
     const newPost: IPost = {
       text: text || "",
       imageURL,
-      authorUid: "shubh",
-      authorUserName: "subhde",
+      authorUid: auth.currentUser?.uid,
+      authorUserName: auth.currentUser?.displayName || "",
       likedBy: [],
       likesCount: 0,
       postedAt: serverTimestamp.now().seconds,
