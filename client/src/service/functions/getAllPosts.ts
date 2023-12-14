@@ -1,15 +1,16 @@
 import { IPost } from "../../models/Post.model";
-import { firestore, serverTimestamp } from "../firebaseConfig";
+import { firestore } from "../firebaseConfig";
 
-export async function getAllPosts(lastPost?: number) {
+export async function getAllPosts(lastPost?: IPost) {
   try {
-    const startAfter = lastPost || serverTimestamp.now().seconds;
-    const postsDocs = await firestore
+    let postsDocsQuery = firestore
       .collection("posts")
-      .limit(10)
-      .orderBy("postedAt", "desc")
-      .startAfter(startAfter)
-      .get();
+      .orderBy("postedAtTimestamp", "desc");
+
+    if (lastPost) {
+      postsDocsQuery = postsDocsQuery.startAfter(lastPost.postedAtTimestamp);
+    }
+    const postsDocs = await postsDocsQuery.limit(10).get();
     return postsDocs.docs.map((postDoc) => postDoc.data() as IPost);
   } catch (e) {
     console.log(e);

@@ -13,7 +13,7 @@ export default function RenderPosts() {
     (async () => {
       const _posts = await getAllPosts();
       setPosts(_posts);
-      if (_posts.length < 9) {
+      if (_posts.length < 1) {
         setNoMorePosts(true);
       }
     })();
@@ -21,12 +21,14 @@ export default function RenderPosts() {
   console.log(posts);
 
   async function handleLoadMore() {
-    const lastPostDate = posts[posts.length - 1].postedAt;
+    const lastPostDate = posts[posts.length - 1];
     const _posts = await getAllPosts(lastPostDate);
-    if (_posts.length < 9) {
+    console.log("newPosts,", _posts);
+
+    setPosts((prev) => [...prev, ..._posts]);
+    if (_posts.length === 0) {
       setNoMorePosts(true);
     }
-    setPosts((prev) => [...prev, ...posts]);
   }
   return (
     <>

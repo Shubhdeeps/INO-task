@@ -1,3 +1,5 @@
+import { Timestamp } from "../service/firebaseConfig";
+
 export interface IPost {
   imageURL: string | null;
   text: string;
@@ -7,4 +9,5 @@ export interface IPost {
   likedBy: string[];
   uid: string;
   likesCount: number;
+  postedAtTimestamp?: Timestamp;
 }
